@@ -1,5 +1,6 @@
 package shop.mtcoding.blog.user;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ public class UserController {
 
     //자바는 final 변수는 반드시 초기화가 되어야 한다.
     private final UserRepository userRepository;
+    private final HttpSession session;
 
     @GetMapping("/join-form")
     public String joinForm() {
@@ -28,6 +30,24 @@ public class UserController {
     public String loginForm() {
         return "user/login-form";
     }
+
+    @PostMapping("/login")
+    public String login(UserRequest.LoginDTO requestDTO){
+        System.out.println("requestDTO = " + requestDTO);
+        if (requestDTO.getUsername().length() < 3){
+            return "error/400";
+        }
+        User user = userRepository.findByUsernameAndPassword(requestDTO);
+
+        if(user == null){ // 조회 안됨 (401)
+            return "error/401";
+        }else{ // 조회 됐음 (인증됨)
+            session.setAttribute("sessionUser", user); // 락카에 담음 (StateFul)
+        }
+
+        return "redirect:/";
+    }
+
 
     @GetMapping("/user/update-form")
     public String updateForm() {
