@@ -13,12 +13,9 @@ public class BoardResponse {
         private Integer userId;
         private String username;
         private Boolean boardOwner;
-        public boolean isBoardOwner(User sessionUser){
-            if (sessionUser == null) {
-                return false; // sessionUser가 없으면 false 반환
-            }
-            return sessionUser.getId() == userId; // ID 비교 결과 반환
-            //참이면 true, 거짓이면 false
+        public void isBoardOwner(User sessionUser){
+            if(sessionUser == null) boardOwner = false;
+            else boardOwner = sessionUser.getId() == userId;
         }
     }
 

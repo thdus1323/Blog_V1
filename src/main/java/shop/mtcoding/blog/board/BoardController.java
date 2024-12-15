@@ -66,7 +66,7 @@ public class BoardController {
         BoardResponse.DetailDTO boardDTO = boardRepository.findByIdWithUser(id);
         boardDTO.isBoardOwner(sessionUser);
 
-        request.setAttribute("boardDetailDTO", boardDTO);
+        request.setAttribute("board", boardDTO);
 
         return "board/detail";
     }
