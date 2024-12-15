@@ -1,19 +1,20 @@
-package shop.mtcoding.blog.user;
+package shop.mtcoding.blog.reply;
 
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
+@Table(name="reply_tb")
 @Data
-@Table(name="user_tb")
 @Entity
-public class User {
+public class Reply {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String username;
-    private String password;
-    private String email;
+
+    private String comment;
+    private Integer userId;
+    private Integer boardId;
     private LocalDateTime createdAt;
 }
