@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import shop.mtcoding.blog.reply.ReplyRepository;
 import shop.mtcoding.blog.user.User;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 public class BoardController {
     private final BoardRepository boardRepository;
     private final HttpSession session;
+    private final ReplyRepository replyRepository;
 
 
     @GetMapping({"/", "/board"})
@@ -66,7 +68,10 @@ public class BoardController {
         BoardResponse.DetailDTO boardDTO = boardRepository.findByIdWithUser(id);
         boardDTO.isBoardOwner(sessionUser);
 
+        List<BoardResponse.ReplyDTO> replyDTOList = replyRepository.findByBoardId(id);
+
         request.setAttribute("board", boardDTO);
+        request.setAttribute("replyList", replyDTOList);
 
         return "board/detail";
     }

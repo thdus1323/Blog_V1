@@ -1,6 +1,7 @@
 package shop.mtcoding.blog.board;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import shop.mtcoding.blog.user.User;
 
 public class BoardResponse {
@@ -19,6 +20,7 @@ public class BoardResponse {
         }
     }
 
+    @NoArgsConstructor
     @Data
     public static class ReplyDTO {
         private Integer id;

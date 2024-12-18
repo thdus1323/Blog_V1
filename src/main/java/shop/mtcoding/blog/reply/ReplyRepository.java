@@ -16,8 +16,8 @@ public class ReplyRepository {
 
     public List<BoardResponse.ReplyDTO> findByBoardId(int boardId){
         String q = """
-            select rt.id, rt.user_id, rt.comment, ut.username from reply_tb rt inner join user_tb ut on rt.user_id = ut.id where rt.board_id = ?
-            """;
+                select rt.id, rt.user_id, rt.comment, ut.username from reply_tb rt inner join user_tb ut on rt.user_id = ut.id where rt.board_id = ?
+                """;
         Query query = em.createNativeQuery(q);
         query.setParameter(1, boardId);
 
@@ -25,7 +25,6 @@ public class ReplyRepository {
 
         return rows.stream().map(row -> new BoardResponse.ReplyDTO(row)).toList();
     }
-
 
     @Transactional
     public void save(ReplyRequest.WriteDTO requestDTO, int userId) {
@@ -37,3 +36,4 @@ public class ReplyRepository {
         query.executeUpdate();
     }
 }
+
