@@ -51,9 +51,11 @@
                     <div class="px-1 me-1 bg-success text-white rounded">{{username}}</div>
                     <div>{{comment}}</div>
                 </div>
+                {{#replyOwner}}
                 <form action="/reply/{{id}}/delete" method="post">
                     <button class="btn">🗑</button>
                 </form>
+                {{/replyOwner}}
             </div>
             {{/replyList}}
         </div>
