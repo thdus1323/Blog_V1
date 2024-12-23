@@ -54,6 +54,8 @@ public class BoardController {
             request.setAttribute("next", page + 1);
             request.setAttribute("keyword", keyword);
         }
+
+        //에러 -> 자바스크립트응답
         return "index";
     }
 
