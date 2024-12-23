@@ -64,7 +64,7 @@ public class BoardController {
         User sessionUser = (User) session.getAttribute("sessionUser");
         //   값이 null 이면 로그인 페이지로 리다이렉션
         //   값이 null 이 아니면, /board/saveForm 으로 이동
-        if(sessionUser == null){
+        if (sessionUser == null) {
             return "redirect:/login-form";
         }
         return "board/save-form";
@@ -104,22 +104,24 @@ public class BoardController {
 
         request.setAttribute("board", boardDTO);
         request.setAttribute("replyList", replyDTOList);
+        request.setAttribute("isLove", true);
+        request.setAttribute("loveCount", 1);
 
         return "board/detail";
     }
 
     @GetMapping("/board/{id}/update-form")
-    public String updateForm(@PathVariable int id, HttpServletRequest request){
+    public String updateForm(@PathVariable int id, HttpServletRequest request) {
         // 1. 인증 안되면 나가
         User sessionUser = (User) session.getAttribute("sessionUser");
-        if(sessionUser == null){
+        if (sessionUser == null) {
             return "redirect:/loginForm";
         }
 
         // 2. 권한 없으면 나가
         // 모델 위임 (id로 board를 조회)
         Board board = boardRepository.findById(id);
-        if(board.getUserId() != sessionUser.getId()){
+        if (board.getUserId() != sessionUser.getId()) {
             return "error/403";
         }
 
@@ -130,16 +132,16 @@ public class BoardController {
     }
 
     @PostMapping("/board/{id}/update")
-    public String update(@PathVariable int id, BoardRequest.UpdateDTO requestDTO){
+    public String update(@PathVariable int id, BoardRequest.UpdateDTO requestDTO) {
         // 1. 인증 체크
         User sessionUser = (User) session.getAttribute("sessionUser");
-        if(sessionUser == null){
+        if (sessionUser == null) {
             return "redirect:/loginForm";
         }
 
         // 2. 권한 체크
         Board board = boardRepository.findById(id);
-        if(board.getUserId() != sessionUser.getId()){
+        if (board.getUserId() != sessionUser.getId()) {
             return "error/403";
         }
 
@@ -147,7 +149,7 @@ public class BoardController {
         // update board_tb set title = ?, content = ? where id = ?;
         boardRepository.update(requestDTO, id);
 
-        return "redirect:/board/"+id;
+        return "redirect:/board/" + id;
     }
 
     @PostMapping("/board/{id}/delete")

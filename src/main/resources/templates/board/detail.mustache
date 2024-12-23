@@ -19,10 +19,21 @@
     <!-- 게시글내용 -->
     <div>
         <h2><b>{{board.title}}</b></h2>
-        <hr />
+        <hr/>
         <div class="m-4 p-2">
             {{board.content}}
         </div>
+    </div>
+
+    <!--좋아요 부분-->
+    <div>
+        {{#isLove}}
+            <i class="fas fa-heart text-danger"></i>
+        {{/isLove}}
+        {{^isLove}}
+            <i class="far fa-heart"></i>
+        {{/isLove}}
+        <span>{{loveCount}}</span>
     </div>
 
     <!-- 댓글 -->
@@ -45,18 +56,18 @@
         <div class="list-group">
 
             {{#replyList}}
-            <!-- 댓글아이템 -->
-            <div class="list-group-item d-flex justify-content-between align-items-center">
-                <div class="d-flex">
-                    <div class="px-1 me-1 bg-success text-white rounded">{{username}}</div>
-                    <div>{{comment}}</div>
+                <!-- 댓글아이템 -->
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="d-flex">
+                        <div class="px-1 me-1 bg-success text-white rounded">{{username}}</div>
+                        <div>{{comment}}</div>
+                    </div>
+                    {{#replyOwner}}
+                        <form action="/reply/{{id}}/delete" method="post">
+                            <button class="btn">🗑</button>
+                        </form>
+                    {{/replyOwner}}
                 </div>
-                {{#replyOwner}}
-                <form action="/reply/{{id}}/delete" method="post">
-                    <button class="btn">🗑</button>
-                </form>
-                {{/replyOwner}}
-            </div>
             {{/replyList}}
         </div>
     </div>
