@@ -4,11 +4,27 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Repository
 public class LoveRepository {
     private final EntityManager em;
+
+    //TODO: 좋아요&취소하기
+    public Love findById(int id) {
+        Query query = em.createNativeQuery("select * from love_tb where id = ?", Love.class);
+        query.setParameter(1, id);
+        Love love = (Love) query.getSingleResult();
+        return love;
+    }
+
+    @Transactional
+    public void deleteById(int id) {
+        Query query = em.createNativeQuery("delete from love_tb where id = ?");
+        query.setParameter(1, id);
+        query.executeUpdate();
+    }
 
     //특정게시물의 좋아요 갯수세기
     public LoveResponse.DetailDTO findLove(int boardId) {
@@ -32,6 +48,21 @@ public class LoveRepository {
         );
         return responseDTO;
     }
+
+    //TODO: 좋아요&취소하기
+    //좋아요 삽입 & 조회
+    @Transactional
+    public int save(LoveRequest.SaveDTO requestDTO, int sessionUserId) {
+        Query query = em.createNativeQuery("insert into love_tb(board_id, user_id, created_at) values(?,?, now())");
+        query.setParameter(1, requestDTO.getBoardId());
+        query.setParameter(2, sessionUserId);
+        query.executeUpdate();
+        //love_tb에서 가장 최근에 추가된 행의  ID 가져오는 쿼리
+        Query q = em.createNativeQuery("select max(id) from love_tb");
+        Integer loveId = (Integer) q.getSingleResult();
+        return loveId;
+    }
+
 
     //특정 유저가 특정 게시물에 대해 좋아요를 눌렀는지 확인,
     //& 게시물의 총 좋아요 갯수를 계산
