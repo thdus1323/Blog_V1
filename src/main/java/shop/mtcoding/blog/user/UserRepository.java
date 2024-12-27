@@ -37,4 +37,17 @@ public class UserRepository {
             return null;
         }
     }
+
+    public User findByUsernameAndPassword(UserRequest.LoginDTO requestDTO) {
+        Query query = em.createNativeQuery("select * from user_tb where username=? and password=?", User.class);
+        query.setParameter(1, requestDTO.getUsername());
+        query.setParameter(2, requestDTO.getPassword());
+
+        try {
+            User user = (User) query.getSingleResult();
+            return user;
+        } catch (Exception e) {
+            throw new RuntimeException("아이디 혹은 비번을 찿을 수 없어요.");
+        }
+    }
 }

@@ -43,4 +43,18 @@ public class UserController {
         return "user/loginForm";
     }
 
+    @PostMapping("/login")
+    public String login(UserRequest.LoginDTO requestDTO) {
+        System.out.println("requestDTO = " + requestDTO);
+//        if (requestDTO.getUsername().length() < 3) {
+//            return "error/400";
+//        }
+        User user = userRepository.findByUsernameAndPassword(requestDTO);
+
+        session.setAttribute("sessionUser", user); // 락카에 담음 (StateFul)
+
+        return "redirect:/";
+    }
+
+    
 }
