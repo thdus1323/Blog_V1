@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import shop.mtcoding.blog.user.User;
@@ -90,5 +91,31 @@ public class BoardController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/board/{id}")
+    public String detail(@PathVariable int id, HttpServletRequest request) {
+        //sessionUser에 따라 (수정,삭제)권한 주려고
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        BoardResponse.DetailDTO boardDTO = boardRepository.findByIdWithUser(id);
+        boardDTO.isBoardOwner(sessionUser);
+
+//        List<BoardResponse.ReplyDTO> replyDTOList = replyRepository.findByBoardId(id, sessionUser);
+
+        request.setAttribute("board", boardDTO);
+//        request.setAttribute("replyList", replyDTOList);
+
+        //주인이 아니면, 특정게시물의 좋아요 갯수를 가져와
+//        if (sessionUser == null) {
+//            LoveResponse.DetailDTO loveDetailDTO = loveRepository.findLove(id);
+//            request.setAttribute("love", loveDetailDTO);
+//            //주인이면, 특정 유저가 특정 게시물에 대해 좋아요 눌렀는지, 좋아요 갯수 계산
+//        } else {
+//            LoveResponse.DetailDTO loveDetailDTO = loveRepository.findLove(id, sessionUser.getId());
+//            request.setAttribute("love", loveDetailDTO);
+//        }
+
+        return "board/detail";
+    }
+
 
 }

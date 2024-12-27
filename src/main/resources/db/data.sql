@@ -20,7 +20,7 @@ values ('제목7', '내용7', 2, now());
 insert into board_tb(title, content, user_id, created_at)
 values ('제목8', '내용8', 2, now());
 insert into board_tb(title, content, user_id, created_at)
-values ('제목9', '내용9', 2, now());
+values ('제목9', '내용9', 1, now());
 --
 --
 -- insert into reply_tb(comment, board_id, user_id, created_at)
