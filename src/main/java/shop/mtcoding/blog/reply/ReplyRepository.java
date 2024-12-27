@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.blog.board.BoardResponse;
 import shop.mtcoding.blog.user.User;
 
@@ -24,5 +25,15 @@ public class ReplyRepository {
         List<Object[]> rows = query.getResultList();
 
         return rows.stream().map(row -> new BoardResponse.ReplyDTO(row, sessionUser)).toList();
+    }
+
+    @Transactional
+    public void save(ReplyRequest.WriteDTO requestDTO, int userId) {
+        Query query = em.createNativeQuery("insert into reply_tb(comment, board_id, user_id, created_at) values(?,?,?, now())");
+        query.setParameter(1, requestDTO.getComment());
+        query.setParameter(2, requestDTO.getBoardId());
+        query.setParameter(3, userId);
+
+        query.executeUpdate();
     }
 }
