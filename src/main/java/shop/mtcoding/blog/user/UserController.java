@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import shop.mtcoding.blog._core.utill.ApiUtil;
+import shop.mtcoding.blog._core.util.ApiUtil;
 
 @Controller
 @RequiredArgsConstructor // final 붙은 애들에 대한 생성자를 만들어줌
