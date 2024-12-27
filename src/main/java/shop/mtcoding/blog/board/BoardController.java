@@ -159,5 +159,26 @@ public class BoardController {
         return "redirect:/board/" + id;
     }
 
+    @PostMapping("/board/{id}/delete")
+    public String delete(@PathVariable int id, HttpServletRequest request) {
+        // 1. 인증 안되면 나가
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if (sessionUser == null) { // 401
+            return "redirect:/loginForm";
+        }
+
+        // 2. 권한 없으면 나가
+        Board board = boardRepository.findById(id);
+        if (board.getUserId() != sessionUser.getId()) {
+            request.setAttribute("status", 403);
+            request.setAttribute("msg", "게시글을 삭제할 권한이 없습니다");
+            return "error/40x";
+        }
+
+        boardRepository.deleteById(id);
+
+        return "redirect:/";
+    }
+
 
 }
