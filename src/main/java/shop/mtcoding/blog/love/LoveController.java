@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import shop.mtcoding.blog._core.utill.ApiUtil;
+import shop.mtcoding.blog._core.util.ApiUtil;
 import shop.mtcoding.blog.user.User;
 
 //TODO: 좋아요&취소하기
