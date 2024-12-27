@@ -1,12 +1,12 @@
-package shop.mtcoding.blog._core.utill;
+package shop.mtcoding.blog._core.util;
 
 import lombok.Data;
 
 @Data
 public class ApiUtil<T> {
 
-    private Integer status ;
-    private String msg ;
+    private Integer status;
+    private String msg;
     private T body;
 
     public ApiUtil(T body) {
@@ -14,10 +14,11 @@ public class ApiUtil<T> {
         this.msg = "성공";
         this.body = body;
     }
+
     public ApiUtil(Integer status, String msg) {
         this.status = status;
         this.msg = msg;
-        this.body = null ;
+        this.body = null;
     }
 
 }

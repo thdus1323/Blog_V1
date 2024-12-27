@@ -1,34 +1,31 @@
 {{> layout/header}}
-<h1>
-    {{#sessionUser}}
-        {{username}}
-    {{/sessionUser}}
-</h1>
-
 
 <div class="container p-5">
     <div class="d-flex justify-content-end">
         <form action="/" method="get">
             <label>
-                <input class="form-control" type="text" placeholder="search..." name="keyword" />
+                <input class="form-control" type="text" placeholder="search..." name="keyword"/>
             </label>
             <button class="btn btn-primary">검색</button>
         </form>
     </div>
 
-{{#boardList}}
-    <div class="card mb-3">
-        <div class="card-body">
-            <h4 class="card-title mb-3">{{title}}</h4>
-            <a href="/board/{{id}}" class="btn btn-success">상세보기</a>
+    {{#boardList}}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h4 class="card-title mb-3">{{title}}</h4>
+                <a href="/board/{{id}}" class="btn btn-success">상세보기</a>
+            </div>
         </div>
-    </div>
-{{/boardList}}
-
+    {{/boardList}}
 
     <ul class="pagination d-flex justify-content-center">
-        <li class="page-item {{#first}}disabled{{/first}}"><a class="page-link" href="?page={{prev}}&keyword={{keyword}}">Previous</a></li>
-        <li class="page-item {{#last}}disabled{{/last}}"><a class="page-link" href="?page={{next}}&keyword={{keyword}}">Next</a></li>
+        <li class="page-item {{#first}}disabled{{/first}}">
+            <a class="page-link" href="?page={{prev}}&keyword={{keyword}}">Previous</a>
+        </li>
+        <li class="page-item {{#last}}disabled{{/last}}">
+            <a class="page-link" href="?page={{next}}&keyword={{keyword}}">Next</a>
+        </li>
     </ul>
 
 </div>
